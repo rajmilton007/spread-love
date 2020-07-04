@@ -27,6 +27,7 @@ evdev:atkbd:dmi:bvn*:bvr*:bd*:svnDell*:pnInspiron*3168:pvr*
 # systemd-hwdb update
 # udevadm trigger --verbose /dev/input/event4
 
+NOTE: A significant amount of help was obtained from /lib/udev/hwdb.d/60-keyboard.dwdb file's inline documentation.
 
 Additional commands/refs:
   /sys/class/dmi/id/modalias  # Gives the firmware-provided strings (usable in the above 70-keyboard.hwdb file) exported by the kernel DMI modalias
@@ -34,3 +35,4 @@ Additional commands/refs:
 # evtest  <<-- tool to debug key presses and to access scan code mapping data of an input device
   /dev/input/eventXX  <<-- various input events, where XX is an integer starting 0
   
+# udevadm info /dev/input/eventXX  <<-- to get info of the specified device
