@@ -1,0 +1,36 @@
+Problem: Fn+(Left/Right/Up/Down) for Home/End/PageUp/PageDown not working
+
+Details: Exactly as mentioned in these forum questions:
+https://askubuntu.com/questions/1038462/how-do-i-force-a-key-release-event-for-fnarrows-home-end-pgup-pgdn
+https://bugs.launchpad.net/ubuntu/+source/lubuntu-default-settings/+bug/1769776
+https://answers.launchpad.net/ubuntu/+question/668694
+
+Solution:
+Ref:
+https://www.dell.com/community/Linux-General/Dell-Inspiron-3179-keyboard-not-sends-KEY-RELEASE-events-key-up/m-p/5114301/highlight/true#M15475
+
+Exact steps followed:
+# vi /etc/udev/hwdb.d/70-keyboard.hwdb
+>>> Entries in this file <<<
+###########################################################
+# Dell Inspiron 11-3168
+###########################################################
+
+evdev:atkbd:dmi:bvn*:bvr*:bd*:svnDell*:pnInspiron*3168:pvr*
+ KEYBOARD_KEY_c7=!home                              # Fn+Left Home
+ KEYBOARD_KEY_cf=!end                               # Fn+Right End
+ KEYBOARD_KEY_c9=!pageup                            # Fn+Up Page Up
+ KEYBOARD_KEY_d1=!pagedown                          # Fn+Down Page Down
+
+>>> Entries end <<<
+
+# systemd-hwdb update
+# udevadm trigger --verbose /dev/input/event4
+
+
+Additional commands/refs:
+  /sys/class/dmi/id/modalias  # Gives the firmware-provided strings (usable in the above 70-keyboard.hwdb file) exported by the kernel DMI modalias
+
+# evtest  <<-- tool to debug key presses and to access scan code mapping data of an input device
+  /dev/input/eventXX  <<-- various input events, where XX is an integer starting 0
+  
